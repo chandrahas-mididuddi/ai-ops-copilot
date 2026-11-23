@@ -1,0 +1,106 @@
+# Fictional internal documentation for Meridian Retail (a fictional company).
+# Every document below is invented for this portfolio project. No real
+# employer's documentation, systems, or data appear anywhere here.
+- id: doc-checkout-latency
+  title: "Checkout API high latency runbook"
+  service: checkout-api
+  body: |
+    Symptom: checkout-api p95 latency above 800ms sustained for 10 minutes.
+    1. Check CPU and connection pool saturation on the checkout-api dashboard.
+    2. If CPU is above 85% or the pool is exhausted, scale replicas from 3 to 6.
+    3. Verify p95 latency recovers below 400ms within 10 minutes.
+    4. If latency does not recover, escalate to the on-call engineer.
+    Scaling replicas is a sensitive action and requires human approval.
+- id: doc-payments-errors
+  title: "Payments gateway 5xx error runbook"
+  service: payments-gateway
+  body: |
+    Symptom: payments-gateway 5xx error rate above 1% for 5 minutes.
+    1. Check whether a deploy went out in the last 30 minutes.
+    2. If a recent deploy correlates with the errors, roll back to the
+       previous version.
+    3. Verify the 5xx error rate falls below 0.1% within 5 minutes.
+    4. Open a follow-up ticket for the failed deploy.
+    Rolling back a deploy is a sensitive action and requires human approval.
+- id: doc-inventory-lag
+  title: "Inventory sync lag runbook"
+  service: inventory-sync
+  body: |
+    Symptom: inventory-sync consumer lag above 10,000 messages and growing.
+    1. Check worker health and the dead-letter queue depth.
+    2. If a worker is stuck, restart the inventory-sync worker.
+    3. Verify consumer lag drains below 1,000 within 15 minutes.
+    Restarting a service is a sensitive action and requires human approval.
+- id: doc-notification-queue
+  title: "Notification queue backlog runbook"
+  service: notification-service
+  body: |
+    Symptom: notification-service queue depth above 50,000 messages.
+    1. Check consumer count and error rate on the queue dashboard.
+    2. Scale notification-service consumers from 2 to 6.
+    3. Verify queue depth drains below 5,000 within 15 minutes.
+    Scaling consumers is a sensitive action and requires human approval.
+- id: doc-cert-rotation
+  title: "TLS certificate rotation procedure"
+  service: platform
+  body: |
+    Certificates must be rotated when fewer than 7 days remain before expiry.
+    1. Issue a replacement certificate through the certificate manager.
+    2. Rotate the certificate on the edge proxies.
+    3. Verify the new certificate is served and the old one is revoked.
+    Rotating a certificate is a sensitive action and requires human approval.
+- id: doc-deploy-rollback
+  title: "Deployment rollback procedure"
+  service: platform
+  body: |
+    To roll back a bad deploy: identify the previous known-good version,
+    run the rollback, and verify health checks pass. A rollback is a
+    sensitive action and requires human approval. After any rollback, open
+    a follow-up ticket with the deploy ID and the observed symptoms.
+- id: doc-scaling-guide
+  title: "Service scaling guide"
+  service: platform
+  body: |
+    Services scale by increasing replica count. The autoscaler targets 70%
+    CPU. Manual scaling above the autoscaler maximum needs a change record.
+    Scaling replicas is a sensitive action and requires human approval.
+- id: doc-escalation
+  title: "On-call escalation policy"
+  service: platform
+  body: |
+    Severity 1 incidents page the primary on-call engineer. If there is no
+    acknowledgement within 15 minutes, page the secondary on-call. If the
+    request does not match any known runbook, notify the on-call engineer
+    and do not take any automated action. Notifying on-call does not need
+    approval.
+- id: doc-monitoring
+  title: "Monitoring and alerting overview"
+  service: platform
+  body: |
+    Each service exposes latency, error rate, CPU, and queue depth metrics,
+    plus structured logs and active alerts. Alert thresholds: p95 latency
+    above 800ms, error rate above 1%, consumer lag above 10,000 messages,
+    queue depth above 50,000 messages, certificate expiry under 7 days.
+- id: doc-cache-purge
+  title: "Cache purge procedure"
+  service: pricing-engine
+  body: |
+    To purge a stale cache: confirm which cache keys are affected, purge
+    them, then re-warm the cache from the source of truth. Purging a cache
+    is a sensitive action and requires human approval.
+- id: doc-pricing-stale
+  title: "Pricing engine stale prices runbook"
+  service: pricing-engine
+  body: |
+    Symptom: pricing-engine serving prices older than 5 minutes.
+    1. Check the price feed health and the cache age.
+    2. If the cache is stale, purge the pricing cache and re-warm it.
+    3. Verify fresh prices are served within 5 minutes.
+    Purging a cache is a sensitive action and requires human approval.
+- id: doc-incident-comms
+  title: "Incident communications template"
+  service: platform
+  body: |
+    For any customer-facing incident, post a status update with the affected
+    service, the observed symptom, and the next update time. Keep updates
+    factual and avoid speculating about the root cause before it is known.
