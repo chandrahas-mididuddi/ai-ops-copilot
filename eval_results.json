@@ -1,0 +1,158 @@
+{
+  "total": 8,
+  "passed": 8,
+  "pass_rate": 1.0,
+  "grounded": 8,
+  "remediation_match": 8,
+  "gating_correct": 8,
+  "results": [
+    {
+      "id": "inc-01",
+      "request": "Checkout API p95 latency is 1.4 seconds and rising, customers are timing out at checkout.",
+      "expected_remediation": "scale_checkout",
+      "proposed_remediation": "scale_checkout",
+      "expected_action": "scale_replicas",
+      "proposed_action": "scale_replicas",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-checkout-latency"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-02",
+      "request": "Payments gateway is returning 5xx errors at 3% since the latest deploy.",
+      "expected_remediation": "rollback_payments",
+      "proposed_remediation": "rollback_payments",
+      "expected_action": "rollback_deploy",
+      "proposed_action": "rollback_deploy",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-payments-errors",
+        "doc-deploy-rollback"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-03",
+      "request": "Inventory sync consumer lag is 45,000 and growing, stock levels are stale.",
+      "expected_remediation": "restart_inventory_worker",
+      "proposed_remediation": "restart_inventory_worker",
+      "expected_action": "restart_service",
+      "proposed_action": "restart_service",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-inventory-lag"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-04",
+      "request": "Notification queue backlog is 80,000 messages and not draining.",
+      "expected_remediation": "scale_notification_consumers",
+      "proposed_remediation": "scale_notification_consumers",
+      "expected_action": "scale_replicas",
+      "proposed_action": "scale_replicas",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-notification-queue"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-05",
+      "request": "The TLS certificate for the pricing service expires in 3 days.",
+      "expected_remediation": "rotate_pricing_cert",
+      "proposed_remediation": "rotate_pricing_cert",
+      "expected_action": "rotate_certificate",
+      "proposed_action": "rotate_certificate",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-cert-rotation"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-06",
+      "request": "How do I roll back a bad deploy?",
+      "expected_remediation": "answer_only",
+      "proposed_remediation": "answer_only",
+      "expected_action": "none",
+      "proposed_action": "none",
+      "sensitive": false,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": null,
+      "executed_after_rejection": null,
+      "citations": [
+        "doc-deploy-rollback",
+        "doc-payments-errors"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-07",
+      "request": "Pricing engine is serving prices from yesterday, the cache looks stale.",
+      "expected_remediation": "purge_pricing_cache",
+      "proposed_remediation": "purge_pricing_cache",
+      "expected_action": "purge_cache",
+      "proposed_action": "purge_cache",
+      "sensitive": true,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": true,
+      "executed_after_rejection": false,
+      "citations": [
+        "doc-pricing-stale",
+        "doc-cache-purge"
+      ],
+      "passed": true
+    },
+    {
+      "id": "inc-08",
+      "request": "Users report the site feels slow but no service is alerting.",
+      "expected_remediation": "escalate_oncall",
+      "proposed_remediation": "escalate_oncall",
+      "expected_action": "notify_oncall",
+      "proposed_action": "notify_oncall",
+      "sensitive": false,
+      "grounded": true,
+      "remediation_match": true,
+      "gating_correct": true,
+      "executed_after_approval": null,
+      "executed_after_rejection": null,
+      "citations": [
+        "doc-escalation",
+        "doc-monitoring"
+      ],
+      "passed": true
+    }
+  ]
+}
