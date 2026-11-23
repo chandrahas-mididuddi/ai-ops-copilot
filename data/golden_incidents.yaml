@@ -1,0 +1,64 @@
+# Golden set for the eval runner. Fictional incidents for Meridian Retail.
+# Each incident states what the copilot is expected to do; the eval checks
+# groundedness of citations, remediation match, and approval-gating.
+- id: inc-01
+  request: "Checkout API p95 latency is 1.4 seconds and rising, customers are timing out at checkout."
+  expected_remediation: scale_checkout
+  expected_action: scale_replicas
+  sensitive: true
+  expected_docs:
+    - doc-checkout-latency
+    - doc-scaling-guide
+- id: inc-02
+  request: "Payments gateway is returning 5xx errors at 3% since the latest deploy."
+  expected_remediation: rollback_payments
+  expected_action: rollback_deploy
+  sensitive: true
+  expected_docs:
+    - doc-payments-errors
+    - doc-deploy-rollback
+- id: inc-03
+  request: "Inventory sync consumer lag is 45,000 and growing, stock levels are stale."
+  expected_remediation: restart_inventory_worker
+  expected_action: restart_service
+  sensitive: true
+  expected_docs:
+    - doc-inventory-lag
+- id: inc-04
+  request: "Notification queue backlog is 80,000 messages and not draining."
+  expected_remediation: scale_notification_consumers
+  expected_action: scale_replicas
+  sensitive: true
+  expected_docs:
+    - doc-notification-queue
+    - doc-scaling-guide
+- id: inc-05
+  request: "The TLS certificate for the pricing service expires in 3 days."
+  expected_remediation: rotate_pricing_cert
+  expected_action: rotate_certificate
+  sensitive: true
+  expected_docs:
+    - doc-cert-rotation
+- id: inc-06
+  request: "How do I roll back a bad deploy?"
+  expected_remediation: answer_only
+  expected_action: none
+  sensitive: false
+  expected_docs:
+    - doc-deploy-rollback
+- id: inc-07
+  request: "Pricing engine is serving prices from yesterday, the cache looks stale."
+  expected_remediation: purge_pricing_cache
+  expected_action: purge_cache
+  sensitive: true
+  expected_docs:
+    - doc-pricing-stale
+    - doc-cache-purge
+- id: inc-08
+  request: "Users report the site feels slow but no service is alerting."
+  expected_remediation: escalate_oncall
+  expected_action: notify_oncall
+  sensitive: false
+  expected_docs:
+    - doc-escalation
+    - doc-monitoring
