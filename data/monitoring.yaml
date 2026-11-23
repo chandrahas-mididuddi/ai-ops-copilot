@@ -1,0 +1,113 @@
+# Fictional monitoring data for Meridian Retail (a fictional company).
+# Static, deterministic, and entirely invented for this portfolio project.
+services:
+  checkout-api:
+    metrics:
+      latency_p95_ms: 1420
+      error_rate_pct: 0.4
+      cpu_pct: 91
+      queue_depth: 120
+      consumer_lag: 0
+      cert_days_remaining: 210
+    logs:
+      - ts: "2026-11-17T10:02:11Z"
+        level: ERROR
+        msg: "checkout-api p95 latency 1420ms exceeds threshold 800ms"
+      - ts: "2026-11-17T10:01:03Z"
+        level: WARN
+        msg: "checkout-api connection pool 48/50 in use"
+      - ts: "2026-11-17T10:00:44Z"
+        level: INFO
+        msg: "checkout-api replica count 3, autoscaler at maximum"
+    alerts:
+      - id: alert-checkout-latency
+        severity: critical
+        msg: "checkout-api p95 latency above 800ms for 10 minutes"
+  payments-gateway:
+    metrics:
+      latency_p95_ms: 310
+      error_rate_pct: 3.2
+      cpu_pct: 44
+      queue_depth: 0
+      consumer_lag: 0
+      cert_days_remaining: 180
+    logs:
+      - ts: "2026-11-17T09:58:22Z"
+        level: ERROR
+        msg: "payments-gateway 5xx rate 3.2% after deploy v2.14.0"
+      - ts: "2026-11-17T09:57:10Z"
+        level: INFO
+        msg: "payments-gateway deploy v2.14.0 completed"
+      - ts: "2026-11-17T09:56:01Z"
+        level: INFO
+        msg: "payments-gateway 5xx rate 0.05% before deploy"
+    alerts:
+      - id: alert-payments-5xx
+        severity: critical
+        msg: "payments-gateway 5xx error rate above 1% for 5 minutes"
+  inventory-sync:
+    metrics:
+      latency_p95_ms: 220
+      error_rate_pct: 0.2
+      cpu_pct: 38
+      queue_depth: 0
+      consumer_lag: 45200
+      cert_days_remaining: 160
+    logs:
+      - ts: "2026-11-17T09:55:40Z"
+        level: ERROR
+        msg: "inventory-sync worker-2 heartbeat missing for 12 minutes"
+      - ts: "2026-11-17T09:54:15Z"
+        level: WARN
+        msg: "inventory-sync consumer lag 45200 and growing"
+      - ts: "2026-11-17T09:50:00Z"
+        level: INFO
+        msg: "inventory-sync worker-2 last successful poll"
+    alerts:
+      - id: alert-inventory-lag
+        severity: warning
+        msg: "inventory-sync consumer lag above 10,000 messages"
+  notification-service:
+    metrics:
+      latency_p95_ms: 180
+      error_rate_pct: 0.1
+      cpu_pct: 62
+      queue_depth: 81200
+      consumer_lag: 0
+      cert_days_remaining: 140
+    logs:
+      - ts: "2026-11-17T09:52:31Z"
+        level: WARN
+        msg: "notification-service queue depth 81200, consumers 2"
+      - ts: "2026-11-17T09:51:00Z"
+        level: INFO
+        msg: "notification-service consumer error rate normal"
+    alerts:
+      - id: alert-notification-queue
+        severity: warning
+        msg: "notification-service queue depth above 50,000 messages"
+  pricing-engine:
+    metrics:
+      latency_p95_ms: 260
+      error_rate_pct: 0.3
+      cpu_pct: 41
+      queue_depth: 0
+      consumer_lag: 0
+      cert_days_remaining: 3
+    logs:
+      - ts: "2026-11-17T09:49:12Z"
+        level: ERROR
+        msg: "pricing-engine cache age 26 hours, prices stale"
+      - ts: "2026-11-17T09:48:05Z"
+        level: WARN
+        msg: "pricing-engine TLS certificate expires in 3 days"
+      - ts: "2026-11-17T09:47:44Z"
+        level: INFO
+        msg: "pricing-engine price feed healthy"
+    alerts:
+      - id: alert-pricing-stale
+        severity: warning
+        msg: "pricing-engine serving prices older than 5 minutes"
+      - id: alert-pricing-cert
+        severity: warning
+        msg: "pricing-engine TLS certificate expires in under 7 days"
